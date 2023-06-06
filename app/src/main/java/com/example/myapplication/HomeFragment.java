@@ -1,13 +1,16 @@
 package com.example.myapplication;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import androidx.appcompat.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -45,6 +48,7 @@ public class HomeFragment extends Fragment {
     private Button wateringButton;
     private DBHelper dbHelper;
     private int memoId;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,7 +91,10 @@ public class HomeFragment extends Fragment {
                 titleEditText.setText("");
                 contentEditText.setText("");
             }
+
         });
+
+
 
         memolistButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,26 +166,63 @@ public class HomeFragment extends Fragment {
         return rootView;
     }
 
+
+    private void updateSensorData(String temperature, String humidity, double soilHumidity) {
+        // 온도 표시
+        String temp = String.format(Locale.getDefault(), "%.1f ℃", temperature);
+        temperatureTextView.setText(temp);
+
+        // 습도 표시
+        String hum = String.format(Locale.getDefault(), "%.1f %%", humidity);
+        humidityTextView.setText(hum);
+
+        // 토양 수분 표시
+        int numOfDroplets;
+
+        // 물방울 개수를 토양 수분에 따라 설정
+        if (soilHumidity <= 10) {
+            numOfDroplets = 1;
+        } else if (soilHumidity > 10 && soilHumidity <= 30) {
+            numOfDroplets = 2;
+        } else if (soilHumidity > 30 && soilHumidity <= 50) {
+            numOfDroplets = 3;
+        } else if (soilHumidity > 50 && soilHumidity <= 70) {
+            numOfDroplets = 4;
+        } else {
+            numOfDroplets = 5;
+        }
+
+        // 물방울 표시 로직 (예시로 물방울 형태의 텍스트로 표시)
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < numOfDroplets; i++) {
+            stringBuilder.append("💧"); // 물방울 이모지 사용
+        }
+        soilHumidityTextView.setText(stringBuilder.toString());
+    }
+
     private void handleMQTTMessage(String topic, String message) {
+        String temperature = "";
+        String humidity = "";
         if (topic.equals(TOPIC_TEMP)) {
-            double temperature = Double.parseDouble(message);
+            temperature = message;
             displayTemperature(temperature);
         } else if (topic.equals(TOPIC_HUM)) {
-            double humidity = Double.parseDouble(message);
+            humidity = message;
             displayHumidity(humidity);
         } else if (topic.equals(TOPIC_SOIL_HUM)) {
             double soilHumidity = Double.parseDouble(message);
             displaySoilHumidity(soilHumidity);
+            updateSensorData(temperature, humidity, soilHumidity); // 센서 데이터 업데이트
         }
     }
 
-    private void displayTemperature(double temperature) {
-        String temp = String.format(Locale.getDefault(), "%.1f ℃", temperature);
+    private void displayTemperature(String temperature) {
+        String temp = String.format(Locale.getDefault(), temperature);
         temperatureTextView.setText(temp);
     }
 
-    private void displayHumidity(double humidity) {
-        String hum = String.format(Locale.getDefault(), "%.1f %%", humidity);
+    private void displayHumidity(String humidity) {
+        String hum = String.format(Locale.getDefault(), humidity);
         humidityTextView.setText(hum);
     }
 
@@ -195,5 +239,6 @@ public class HomeFragment extends Fragment {
         } catch (MqttException e) {
             e.printStackTrace();
         }
+
     }
 }
