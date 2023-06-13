@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -121,12 +120,12 @@ public class HomeFragment extends Fragment {
                 String date = sdf.format(new Date());
 
                 // MQTT 메시지 발행
-                String message = "Watering"; // 발행할 메시지
+                String message = "30ML"; // 발행할 메시지
                 try {
                     mqttClient.publish(TOPIC_WATER, message.getBytes(), 0, false);
                     // MQTT 메시지 발행 후 데이터베이스에 저장
                     dbHelper.insertMemo(new Memo(memoId, "Watering", date, message));
-                    Toast.makeText(getActivity(), "메모가 저장되었습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "데이터가 저장되었습니다.", Toast.LENGTH_SHORT).show();
                 } catch (MqttException e) {
                     e.printStackTrace();
                 }
@@ -176,31 +175,30 @@ public class HomeFragment extends Fragment {
         String hum = String.format(Locale.getDefault(), "%.1f %%", humidity);
         humidityTextView.setText(hum);
 
-        // 토양 수분 표시
-        int numOfDroplets;
-
-        // 물방울 개수를 토양 수분에 따라 설정
-        if (soilHumidity <= 10) {
-            numOfDroplets = 1;
-        } else if (soilHumidity > 10 && soilHumidity <= 30) {
-            numOfDroplets = 2;
-        } else if (soilHumidity > 30 && soilHumidity <= 50) {
-            numOfDroplets = 3;
-        } else if (soilHumidity > 50 && soilHumidity <= 70) {
-            numOfDroplets = 4;
-        } else {
-            numOfDroplets = 5;
-        }
-
-        // 물방울 표시 로직 (예시로 물방울 형태의 텍스트로 표시)
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < numOfDroplets; i++) {
-            stringBuilder.append("💧"); // 물방울 이모지 사용
-        }
-        soilHumidityTextView.setText(stringBuilder.toString());
+//        int numOfDroplets;
+//
+//// 물방울 개수를 토양 수분에 따라 설정
+//        if (soilHumidity <= 10) {
+//            numOfDroplets = 1;
+//        } else if (soilHumidity > 10 && soilHumidity <= 30) {
+//            numOfDroplets = 2;
+//        } else if (soilHumidity > 30 && soilHumidity <= 50) {
+//            numOfDroplets = 3;
+//        } else if (soilHumidity > 50 && soilHumidity <= 70) {
+//            numOfDroplets = 4;
+//        } else {
+//            numOfDroplets = 5;
+//        }
+//
+//// 물방울 표시 로직
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for (int i = 0; i < numOfDroplets; i++) {
+//            stringBuilder.append("💧"); // 물방울 이모지 사용
+//        }
+//        soilHumidityTextView.setText(stringBuilder.toString());
     }
 
-    private void handleMQTTMessage(String topic, String message) {
+        private void handleMQTTMessage(String topic, String message) {
         String temperature = "";
         String humidity = "";
         if (topic.equals(TOPIC_TEMP)) {
@@ -227,8 +225,28 @@ public class HomeFragment extends Fragment {
     }
 
     private void displaySoilHumidity(double soilHumidity) {
-        String soilHum = String.format(Locale.getDefault(), "%.1f %%", soilHumidity);
-        soilHumidityTextView.setText(soilHum);
+        int numOfDroplets;
+
+        // 물방울 개수를 토양 수분에 따라 설정
+        if (soilHumidity <= 10) {
+            numOfDroplets = 1;
+        } else if (soilHumidity > 10 && soilHumidity <= 30) {
+            numOfDroplets = 2;
+        } else if (soilHumidity > 30 && soilHumidity <= 50) {
+            numOfDroplets = 3;
+        } else if (soilHumidity > 50 && soilHumidity <= 70) {
+            numOfDroplets = 4;
+        } else {
+            numOfDroplets = 5;
+        }
+
+        // 물방울 표시 로직
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < numOfDroplets; i++) {
+            stringBuilder.append("💧"); // 물방울 이모지 사용
+        }
+
+        soilHumidityTextView.setText(stringBuilder.toString());
     }
 
     @Override

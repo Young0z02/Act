@@ -38,15 +38,14 @@ public class MemoDetailActivity extends AppCompatActivity {
             titleTextView.setText(memo.getTitle());
             contentTextView.setText(memo.getContent());
         } else {
-            // memo가 null인 경우 처리할 내용을 추가합니다.
-            // 예를 들어, Toast 메시지를 표시하거나 기본값을 설정할 수 있습니다.
+
         }
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (memo != null) {
-                    // 수정 버튼 클릭 시, 메모 수정 화면으로 이동합니다.
+                    // 수정 버튼 클릭 시, 메모 수정 화면으로 이동
                     Intent editIntent = new Intent(MemoDetailActivity.this, EditMemoActivity.class);
                     editIntent.putExtra("memoId", memo.getId());
                     startActivity(editIntent);
@@ -58,10 +57,10 @@ public class MemoDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (memo != null) {
-                    // 삭제 버튼 클릭 시, 메모를 삭제합니다.
+                    // 삭제 버튼 클릭 시, 메모를 삭제
                     dbHelper.deleteMemo(memo.getId());
                     Toast.makeText(MemoDetailActivity.this, "메모가 삭제되었습니다.", Toast.LENGTH_SHORT).show();
-                    finish(); // 현재 액티비티를 종료합니다.
+                    finish(); // 현재 액티비티를 종료
                 }
             }
         });

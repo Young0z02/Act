@@ -24,7 +24,7 @@ public class WateringManagementFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_watering_management, container, false);
 
-        waterListView = rootView.findViewById(R.id.waterListView );
+        waterListView = rootView.findViewById(R.id.waterListView);
         dbHelper = new DBHelper(getActivity());
 
         // 데이터베이스에서 메모 리스트 가져오기
