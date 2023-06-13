@@ -43,4 +43,3 @@ public class MemoListActivity extends AppCompatActivity implements MemoListAdapt
     }
 }
 
-

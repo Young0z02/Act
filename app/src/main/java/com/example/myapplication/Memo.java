@@ -1,20 +1,17 @@
 package com.example.myapplication;
 
+import java.util.ArrayList;
+
 public class Memo {
 
     private int id;
     private String title;
     private String content;
     private String date;
+    private ArrayList<String> additionalDataList;
 
-    public Memo(int id, String title, String content, String date) {
+    public Memo(int id, String date, String title, String content) {
         this.id = id;
-        this.title = title;
-        this.content = content;
-        this.date = date;
-    }
-
-    public Memo(String title, String content, String date) {
         this.title = title;
         this.content = content;
         this.date = date;

@@ -7,14 +7,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import com.google.android.material.navigation.NavigationBarView;
+import android.view.View;
 
+import com.google.android.material.navigation.NavigationBarView;
 
 public class SecondMainActivity extends AppCompatActivity {
     HomeFragment homeFragment;
     PlantInfoFragment plantInfoFragment;
     WateringFragment wateringFragment;
     WateringManagementFragment wateringManagementFragment;
+    NavigationBarView navigationBarView;
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -31,22 +33,21 @@ public class SecondMainActivity extends AppCompatActivity {
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
                 switch (item.getItemId()) {
                     case R.id.home:
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers, homeFragment).commit();
-                        return true;
+                        break;
                     case R.id.watering:
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers, wateringFragment).commit();
-                        return true;
+                        break;
                     case R.id.watering_management:
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers, wateringManagementFragment).commit();
-                        return true;
+                        break;
                     case R.id.plant_info:
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers, plantInfoFragment).commit();
-                        return true;
+                        break;
                 }
-                return false;
+                return true;
             }
         });
     }

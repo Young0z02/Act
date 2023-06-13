@@ -50,7 +50,7 @@ public class PlantInfoFragment extends Fragment {
                 String location = edit.getText().toString();
                 if (!location.isEmpty()) {
                     String encodedLocation = URLEncoder.encode(location);
-                    String queryUrl = "http://api.nongsaro.go.kr/service/garden/gardenList?"
+                    String queryUrl = "http://api.nongsaro.go.kr/service/garden/gardenDtl?"
                             + "apiKey=" + key
                             + "&sType=sText&wordType=word"
                             + "&sText=" + encodedLocation

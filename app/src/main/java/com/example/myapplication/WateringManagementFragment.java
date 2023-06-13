@@ -39,4 +39,3 @@ public class WateringManagementFragment extends Fragment {
         return rootView;
     }
 }
-

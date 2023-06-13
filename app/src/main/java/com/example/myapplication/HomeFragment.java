@@ -4,18 +4,18 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import androidx.appcompat.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -24,6 +24,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -48,7 +49,6 @@ public class HomeFragment extends Fragment {
     private DBHelper dbHelper;
     private int memoId;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
@@ -64,6 +64,7 @@ public class HomeFragment extends Fragment {
         wateringButton = rootView.findViewById(R.id.watering);
 
         dbHelper = new DBHelper(getActivity());
+
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,14 +87,8 @@ public class HomeFragment extends Fragment {
                 } else {
                     Toast.makeText(getActivity(), "메모 저장에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 }
-                // 입력 필드 초기화
-                titleEditText.setText("");
-                contentEditText.setText("");
             }
-
         });
-
-
 
         memolistButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,14 +101,18 @@ public class HomeFragment extends Fragment {
         wateringButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // wateringFragment로 전환하는 코드
                 Fragment wateringFragment = new WateringFragment();
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentManager fragmentManager = getParentFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.containers, wateringFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+
+                // 네비게이션 바에서 "watering" 아이템 선택
+                BottomNavigationView navigationView = requireActivity().findViewById(R.id.bottom_navigationView);
+                navigationView.setSelectedItemId(R.id.watering);
+
 
                 // 현재시간
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
