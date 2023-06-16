@@ -16,13 +16,13 @@
 
         <EditText
             android:id="@+id/edit"
-            android:layout_width="288dp"
+            android:layout_width="260dp"
             android:layout_height="match_parent"
             android:hint="enter text to search" />
 
         <Button
             android:id="@+id/button"
-            android:layout_width="100dp"
+            android:layout_width="131dp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
@@ -30,7 +30,7 @@
             android:layout_marginBottom="0dp"
             android:onClick="mOnClick"
             android:text="search"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
     </RelativeLayout>
 
@@ -45,11 +45,18 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/result1"
+                android:layout_width="match_parent"
+                android:layout_height="304dp"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/result"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="356dp"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
 
         </LinearLayout>

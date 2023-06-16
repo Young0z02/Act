@@ -217,7 +217,7 @@ public class HomeFragment extends Fragment {
         else if (soilHumidity >= 2000 && soilHumidity < 2999)
             numOfDroplets = "💧💧💧";
         else
-            numOfDroplets = "💧💧💧💧";
+            numOfDroplets = "💧💧💧";
 
         soilHumidityTextView.setText(numOfDroplets);
 
