@@ -29,7 +29,7 @@ public class EditMemoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_memo);
 
         titleEditText = findViewById(R.id.title);
-        contentEditText = findViewById(R.id.content);
+        contentEditText = findViewById(R.id.date);
         saveButton = findViewById(R.id.save);
 
         dbHelper = new DBHelper(this);
