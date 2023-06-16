@@ -28,6 +28,7 @@
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"
         android:singleLine="true"
+        android:fontFamily="@font/kccmurukmuruk"
         android:text="~ 실시간으로 물을 주는 중입니다 ~ ~ 실시간으로 물을 주는 중입니다 ~"
         android:textColor="@color/black"
         android:textSize="30sp" />

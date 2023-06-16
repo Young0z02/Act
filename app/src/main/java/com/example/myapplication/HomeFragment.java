@@ -1,9 +1,11 @@
 package com.example.myapplication;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -99,6 +101,26 @@ public class HomeFragment extends Fragment {
         wateringButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // 다이얼로그 생성
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("물주기 확인");
+                builder.setMessage("물을 주시겠습니까?");
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 확인 버튼을 클릭한 경우, 물주기 동작 수행
+                        performWatering();
+
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("취소", null);
+
+                // 다이얼로그 표시
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
                 // wateringFragment로 전환하는 코드
                 Fragment wateringFragment = new WateringFragment();
                 FragmentManager fragmentManager = getParentFragmentManager();
@@ -111,21 +133,6 @@ public class HomeFragment extends Fragment {
                 BottomNavigationView navigationView = requireActivity().findViewById(R.id.bottom_navigationView);
                 navigationView.setSelectedItemId(R.id.watering);
 
-                // 현재시간
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-                String date = sdf.format(new Date());
-
-                // MQTT 메시지 발행
-                String message = "10ML"; // 발행할 메시지
-                try {
-                    mqttClient.publish(TOPIC_WATER, message.getBytes(), 0, false);
-                    // MQTT 메시지 발행 후 데이터베이스에 저장
-                    WaterHelper dbHelper = new WaterHelper(getActivity());  // WaterHelper 인스턴스 생성
-                    dbHelper.insertWater("Watering", date, message);  // insertWater 메서드를 사용하여 데이터베이스에 저장
-                    Toast.makeText(getActivity(), "데이터가 저장되었습니다.", Toast.LENGTH_SHORT).show();
-                } catch (MqttException e) {
-                    e.printStackTrace();
-                }
             }
         });
 
@@ -210,13 +217,14 @@ public class HomeFragment extends Fragment {
         else if (soilHumidity >= 2000 && soilHumidity < 2999)
             numOfDroplets = "💧💧💧";
         else
-            numOfDroplets =  "💧💧💧💧";
+            numOfDroplets = "💧💧💧💧";
 
         soilHumidityTextView.setText(numOfDroplets);
 
         String soilHum = String.format(Locale.getDefault(), "%d", numOfDroplets);
         soilHumidityTextView.setText(soilHum);
     }
+
 
     @Override
     public void onDestroy() {
@@ -227,6 +235,25 @@ public class HomeFragment extends Fragment {
             } catch (MqttException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void performWatering() {
+        // MQTT 메시지 발행
+        String message = "10ML"; // 발행할 메시지
+
+        // 현재시간
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String date = sdf.format(new Date());
+
+        try {
+            mqttClient.publish(TOPIC_WATER, message.getBytes(), 0, false);
+            // MQTT 메시지 발행 후 데이터베이스에 저장
+            WaterHelper dbHelper = new WaterHelper(getActivity());  // WaterHelper 인스턴스 생성
+            dbHelper.insertWater("Watering", date, message);  // insertWater 메서드를 사용하여 데이터베이스에 저장
+            Toast.makeText(getActivity(), "데이터가 저장되었습니다.", Toast.LENGTH_SHORT).show();
+        } catch (MqttException e) {
+            e.printStackTrace();
         }
     }
 }

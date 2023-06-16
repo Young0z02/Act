@@ -27,7 +27,7 @@ public class PlantInfoFragment extends Fragment {
 
     EditText edit;
     TextView text;
-    ImageView imageView;
+    ImageView view;
 
     String key = "20230607WV14UWOSEECVLG5IEBKZG"; // 수정된 API 키입니다.
     String cntntsNo = ""; // cntntsNo 값을 저장할 변수

@@ -1,13 +1,17 @@
 package com.example.myapplication;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -19,16 +23,17 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class SecondMainActivity extends AppCompatActivity {
+
     HomeFragment homeFragment;
     PlantInfoFragment plantInfoFragment;
     WateringFragment wateringFragment;
     WateringManagementFragment wateringManagementFragment;
     NavigationBarView navigationBarView;
-    private MqttClient mqttClient;
 
-    private String ServerIP = "tcp://223.195.194.41:1883";
-    private String topic = "Aplant/water";
-    private String message = "watering";
+
+    private MqttClient mqttClient;
+    private static final String ServerIP = "tcp://223.195.194.41:1883";
+    private static final String TOPIC = "Aplant/water";
 
     private String clientId = MqttClient.generateClientId();
 
@@ -44,6 +49,10 @@ public class SecondMainActivity extends AppCompatActivity {
 
         // MQTT 클라이언트 초기화
         try {
+
+            mqttClient = new MqttClient(ServerIP, MqttClient.generateClientId(), null);
+            mqttClient.connect();
+
             mqttClient = new MqttClient(ServerIP, clientId);
             MqttConnectOptions options = new MqttConnectOptions();
             options.setCleanSession(true);
@@ -54,16 +63,19 @@ public class SecondMainActivity extends AppCompatActivity {
                 @Override
                 public void connectionLost(Throwable cause) {
                     // 연결이 끊어졌을 때의 동작 처리
+                    Log.d("MQTT", "Connection lost");
                 }
 
                 @Override
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
                     // 메시지 수신시의 동작 처리
+                    Log.d("MQTT", "Message arrived: " + new String(message.getPayload()));
                 }
 
                 @Override
                 public void deliveryComplete(IMqttDeliveryToken token) {
                     // 메시지 전달 완료시의 동작 처리
+                    Log.d("MQTT", "Delivery complete");
                 }
             });
         } catch (MqttException e) {
@@ -81,15 +93,8 @@ public class SecondMainActivity extends AppCompatActivity {
                         break;
                     case R.id.watering:
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers, wateringFragment).commit();
-                        // MQTT 클라이언트를 통해 메시지 발행
-
-                        try {
-                            if (mqttClient != null) { // null 체크 추가
-                                mqttClient.publish(topic, message.getBytes(), 0, false);
-                            }
-                        } catch (MqttException e) {
-                            e.printStackTrace();
-                        }
+                        showWateringDialog();
+                        performWatering();
                         break;
                     case R.id.watering_management:
                         getSupportFragmentManager().beginTransaction().replace(R.id.containers, wateringManagementFragment).commit();
@@ -119,16 +124,49 @@ public class SecondMainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
-        // 액티비티가 종료될 때 MQTT 클라이언트 연결 해제
-        try {
-            if (mqttClient != null) { // null 체크 추가
+        if (mqttClient != null) {
+            try {
                 mqttClient.disconnect();
+            } catch (MqttException e) {
+                e.printStackTrace();
             }
-        } catch (MqttException e) {
-            e.printStackTrace();
         }
+    }
+
+    private void performWatering() {
+        if (mqttClient != null) {
+            // MQTT 메시지 발행
+            String message = "10ML"; // 발행할 메시지
+
+            try {
+                mqttClient.publish(TOPIC, message.getBytes(), 0, false);
+                Toast.makeText(this, "물을 주었습니다.", Toast.LENGTH_SHORT).show();
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    private void showWateringDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Watering");
+        builder.setMessage("물을 주시겠습니까?");
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 다이얼로그 확인 버튼을 눌렀을 때의 동작 처리
+                Toast.makeText(SecondMainActivity.this, "물을 주었습니다.", Toast.LENGTH_SHORT).show();
+                performWatering();
+
+
+           }
+        });
+
+        builder.show();
     }
 }
