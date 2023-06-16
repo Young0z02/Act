@@ -7,7 +7,7 @@
     <item
         android:id="@+id/watering"
         android:title=""
-        android:icon="@drawable/ic_wateringmg" />
+        android:icon="@drawable/ic_watering" />
     <item
         android:id="@+id/watering_management"
         android:title=""

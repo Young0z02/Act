@@ -7,33 +7,33 @@
     android:orientation="vertical"
     tools:context=".SecondMainActivity">
 
+
     <ImageView
-        android:layout_width="447dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="-4dp"
-        android:layout_marginTop="396dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="395dp"
         android:layout_marginEnd="0dp"
-        android:layout_marginBottom="-1dp"
+        android:layout_marginBottom="0dp"
         android:src="@drawable/memo_line" />
 
-    <TextView
-        android:id="@+id/nameedit"
-        android:layout_width="69dp"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="62dp"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="90dp"
-        android:layout_marginEnd="252dp"
-        android:layout_marginBottom="650dp"
-        android:fontFamily="sans-serif-black"
-        android:hint="이름"
-        android:textSize="30sp" />
-
+        android:layout_marginStart="79dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="241dp"
+        android:layout_marginBottom="642dp"
+        android:src="@drawable/mainname" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -41,8 +41,8 @@
         android:layout_height="67dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="11dp"
-        android:layout_marginEnd="127dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="126dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -77,16 +77,16 @@
         android:src="@drawable/temp" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="156dp"
+        android:layout_width="322dp"
+        android:layout_height="167dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="110dp"
-        android:layout_marginEnd="54dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="99dp"
+        android:layout_marginEnd="44dp"
         android:layout_marginBottom="465dp"
         android:src="@drawable/soil" />
 
@@ -165,7 +165,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="91dp"
-        android:layout_marginTop="290dp"
+        android:layout_marginTop="289dp"
+        android:fontFamily="@font/kccmurukmuruk"
         android:text="내 식물의 온도는?" />
 
     <TextView
@@ -174,22 +175,25 @@
         android:layout_height="35dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="249dp"
-        android:layout_marginTop="293dp"
+        android:layout_marginStart="243dp"
+        android:layout_marginTop="289dp"
+        android:fontFamily="@font/kccmurukmuruk"
         android:text="내 식물의 습도는?" />
 
     <TextView
         android:id="@+id/message3"
-        android:layout_width="70dp"
-        android:layout_height="71dp"
+        android:layout_width="86dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_centerInParent="true"
-        android:layout_marginStart="280dp"
-        android:layout_marginTop="153dp"
-        android:layout_marginEnd="61dp"
-        android:text="내 식물의 토양수분은?" />
+        android:layout_marginStart="279dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="46dp"
+        android:fontFamily="@font/kccmurukmuruk"
+        android:text="내 식물의 토양수분은?"
+        android:textSize="23sp" />
 
 
 </RelativeLayout>
