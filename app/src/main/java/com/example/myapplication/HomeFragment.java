@@ -111,15 +111,10 @@ public class HomeFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         // 확인 버튼을 클릭한 경우, 물주기 동작 수행
                         performWatering();
-
                         dialog.dismiss();
                     }
                 });
                 builder.setNegativeButton("취소", null);
-
-                // 다이얼로그 표시
-                AlertDialog dialog = builder.create();
-                dialog.show();
 
                 // wateringFragment로 전환하는 코드
                 Fragment wateringFragment = new WateringFragment();
@@ -255,5 +250,7 @@ public class HomeFragment extends Fragment {
         } catch (MqttException e) {
             e.printStackTrace();
         }
+
     }
 }
+
