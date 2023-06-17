@@ -47,14 +47,14 @@
             <TextView
                 android:id="@+id/result1"
                 android:layout_width="match_parent"
-                android:layout_height="304dp"
+                android:layout_height="336dp"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/result"
                 android:layout_width="match_parent"
-                android:layout_height="356dp"
+                android:layout_height="326dp"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 

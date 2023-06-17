@@ -110,7 +110,8 @@ public class PlantInfoFragment extends Fragment {
                 cntntsNoList.addAll(result);
                 StringBuilder sb = new StringBuilder();
                 for (String cntntsNo : cntntsNoList) {
-                    sb.append("식물 번호: ").append(cntntsNo).append("\n");
+                    String plantInfo = "식물 번호: " + cntntsNo + "\n";
+                    sb.append(plantInfo);
                 }
                 result1.setText(sb.toString());
 
