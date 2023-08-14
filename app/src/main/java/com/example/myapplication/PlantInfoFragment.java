@@ -25,7 +25,7 @@ import java.util.List;
 
 public class PlantInfoFragment extends Fragment {
 
-    String key = "20230607WV14UWOSEECVLG5IEBKZG";
+    String key = "";
     List<String> cntntsNoList = new ArrayList<>(); // 모든 식물 번호를 저장할 리스트
 
     EditText edit;
