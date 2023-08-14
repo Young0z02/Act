@@ -32,7 +32,7 @@ public class SecondMainActivity extends AppCompatActivity {
 
 
     private MqttClient mqttClient;
-    private static final String ServerIP = "tcp://223.195.194.41:1883";
+    private static final String ServerIP = "";
     private static final String TOPIC = "Aplant/water";
 
     private String clientId = MqttClient.generateClientId();
