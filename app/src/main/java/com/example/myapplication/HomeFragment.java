@@ -31,7 +31,7 @@ import java.util.Locale;
 
 public class HomeFragment extends Fragment {
 
-    private String ServerIP = "tcp://223.195.194.41:1883";
+    private String ServerIP = "";
     private String TOPIC_TEMP = "sensor/temp";
     private String TOPIC_HUM = "sensor/hum";
     private String TOPIC_SOIL_HUM = "sensor/soilhum";
